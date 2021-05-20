@@ -1,5 +1,8 @@
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app_with_api/screens/sign_up_screen.dart';
 import 'package:shop_app_with_api/shared/cubit/app_cubit.dart';
 import 'package:shop_app_with_api/shared/cubit/app_states.dart';
 
@@ -30,13 +33,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 icon: AppCubit.get(context).isDark
                     ? Icon(
-                  Icons.brightness_4_outlined,
-                  color: Colors.black,
-                )
+                        Icons.brightness_4_outlined,
+                        color: Colors.black,
+                      )
                     : Icon(
-                  Icons.brightness_4_outlined,
-                  color: Colors.white,
-                ),
+                        Icons.brightness_4_outlined,
+                        color: Colors.white,
+                      ),
               ),
             ],
             title: Text(
@@ -114,22 +117,35 @@ class _LoginScreenState extends State<LoginScreen> {
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'please enter password';
-                                } else if (value.length < 8) {
-                                  return 'password must be 8 characters at least';
                                 }
+                                // else if (value.length < 8) {
+                                //   return 'password must be 8 characters at least';
+                                // }
                                 return null;
                               },
-
                             ),
                             const SizedBox(
                               height: 20,
                             ),
                             Container(
                               width: double.infinity,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                child: Text('login'),
-                                style: ButtonStyle(),
+                              child: ConditionalBuilder(
+                                builder: (ctx) => ElevatedButton(
+                                  onPressed: () {
+                                    if(formKey.currentState!.validate()){
+                                      AppCubit.get(context).userLogin(
+                                        email: 'ahmed.gamil@gmail.com',
+                                        password: '123456',
+                                      );
+                                    }
+
+                                  },
+                                  child: Text('login'),
+                                  style: ButtonStyle(),
+                                ),
+                                condition: state is! LoginLoadingState,
+                                fallback: (ctx) =>
+                                    Center(child: CircularProgressIndicator()),
                               ),
                             ),
                             const SizedBox(
@@ -147,8 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    // Navigator.of(context)
-                                    //     .pushNamed(SignUpScreen.routeName);
+                                    Navigator.of(context)
+                                        .pushNamed(SignUpScreen.routeName);
                                   },
                                   child: const Text(
                                     'Register Now',
