@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 ThemeData darkTheme = ThemeData(
+    fontFamily: 'Lato',
     primaryColor: Colors.deepOrange,
     accentColor: Colors.blue,
+    primarySwatch: Colors.deepOrange,
     scaffoldBackgroundColor: Colors.black54,
     appBarTheme: AppBarTheme(
       backwardsCompatibility: false,
       color: Colors.deepOrange,
     ),
-    fontFamily: 'Lato',
-    primarySwatch: Colors.deepOrange,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.deepOrange,
@@ -24,6 +24,10 @@ ThemeData darkTheme = ThemeData(
         color: Colors.white,
         fontWeight: FontWeight.bold,
       ),
+      headline4: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
       subtitle1: TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.bold,
@@ -35,6 +39,12 @@ ThemeData lightTheme = ThemeData(
     fontFamily: 'Lato',
     primaryColor: Colors.purple,
     accentColor: Colors.black38,
+    primarySwatch: Colors.purple,
+    scaffoldBackgroundColor: Colors.white,
+    appBarTheme: AppBarTheme(
+      backwardsCompatibility: false,
+      color: Colors.purple,
+    ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.purple,
@@ -50,6 +60,10 @@ ThemeData lightTheme = ThemeData(
         fontWeight: FontWeight.bold,
       ),
       subtitle1: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+      ),
+      headline4: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.bold,
       ),

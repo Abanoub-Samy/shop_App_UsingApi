@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app_with_api/screens/login_screen.dart';
 import 'package:shop_app_with_api/screens/onBoarding_screen.dart';
 import 'package:shop_app_with_api/shared/cache_helper.dart';
 import 'package:shop_app_with_api/shared/cubit/app_cubit.dart';
@@ -41,23 +42,39 @@ class MyApp extends StatelessWidget {
       darkTheme: darkTheme,
       themeMode:
           AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+      routes: {
+        LoginScreen.routeName: (ctx) => LoginScreen(),
+      },
       home: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              AppCubit.get(context).changeAppMode();
+            },
+            icon: AppCubit.get(context).isDark
+                ? Icon(
+                    Icons.brightness_4_outlined,
+                    color: Colors.black,
+                  )
+                : Icon(
+                    Icons.brightness_4_outlined,
+                    color: Colors.white,
+                  ),
+          ),
           actions: [
-            IconButton(
-              onPressed: () {
-                AppCubit.get(context).changeAppMode();
-              },
-              icon: AppCubit.get(context).isDark
-                  ? Icon(
-                      Icons.brightness_4_outlined,
-                      color: Colors.black,
-                    )
-                  : Icon(
-                      Icons.brightness_4_outlined,
-                      color: Colors.white,
-                    ),
-            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(
+                      context, LoginScreen.routeName);
+                },
+                child: Text(
+                  'Skip',
+                  style: TextStyle(
+                    color: AppCubit.get(context).isDark
+                        ? Colors.black
+                        : Colors.white,
+                  ),
+                ))
           ],
         ),
         body: OnBoardingScreen(),
