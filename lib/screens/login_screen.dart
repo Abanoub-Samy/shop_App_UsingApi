@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app_with_api/screens/sign_up_screen.dart';
 import 'package:shop_app_with_api/shared/cubit/app_cubit.dart';
 import 'package:shop_app_with_api/shared/cubit/app_states.dart';
+import 'package:shop_app_with_api/widgets/flutter_toast.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login-screen';
@@ -21,8 +22,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var cubit = AppCubit.get(context);
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is LoginSuccessState) {
+          if (cubit.loginModel!.status == true) {
+            //print(cubit.loginModel!.message.toString());
+            //print(cubit.loginModel!.data!.token.toString());
+            showToast(
+                message: cubit.loginModel!.message.toString(),
+                backgroundColor: Colors.green,
+                textColor: Colors.white);
+          }
+        } else if (state is LoginErrorState) {
+          //print(cubit.loginModel!.message.toString());
+          showToast(
+              message: cubit.loginModel!.message.toString(),
+              backgroundColor: Colors.red,
+              textColor: Colors.white);
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -132,13 +151,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: ConditionalBuilder(
                                 builder: (ctx) => ElevatedButton(
                                   onPressed: () {
-                                    if(formKey.currentState!.validate()){
+                                    if (formKey.currentState!.validate()) {
                                       AppCubit.get(context).userLogin(
-                                        email: 'ahmed.gamil@gmail.com',
-                                        password: '123456',
+                                        email: emailText.text,
+                                        password: passwordText.text,
                                       );
                                     }
-
                                   },
                                   child: Text('login'),
                                   style: ButtonStyle(),
