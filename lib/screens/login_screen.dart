@@ -2,7 +2,9 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app_with_api/screens/home_screen.dart';
 import 'package:shop_app_with_api/screens/sign_up_screen.dart';
+import 'package:shop_app_with_api/shared/cache_helper.dart';
 import 'package:shop_app_with_api/shared/cubit/app_cubit.dart';
 import 'package:shop_app_with_api/shared/cubit/app_states.dart';
 import 'package:shop_app_with_api/widgets/flutter_toast.dart';
@@ -27,8 +29,13 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, state) {
         if (state is LoginSuccessState) {
           if (cubit.loginModel!.status == true) {
-            //print(cubit.loginModel!.message.toString());
             //print(cubit.loginModel!.data!.token.toString());
+            CacheHelper.saveData(
+              key: 'token',
+              value: cubit.loginModel!.data!.token.toString(),
+            ).then((value){
+              Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+            });
             showToast(
                 message: cubit.loginModel!.message.toString(),
                 backgroundColor: Colors.green,

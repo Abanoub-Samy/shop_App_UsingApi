@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app_with_api/screens/login_screen.dart';
+import 'package:shop_app_with_api/shared/cache_helper.dart';
+import 'package:shop_app_with_api/shared/cubit/app_cubit.dart';
 import 'package:shop_app_with_api/widgets/onBoarding_item.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -10,7 +13,6 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
-
   var boardController = PageController();
   List<BoardingModel> boarding = [
     BoardingModel(
@@ -29,11 +31,42 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       title: 'On Board 3 Title',
     ),
   ];
-  bool isLast = false ;
+  bool isLast = false;
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            AppCubit.get(context).changeAppMode();
+          },
+          icon: AppCubit.get(context).isDark
+              ? Icon(
+            Icons.brightness_4_outlined,
+            color: Colors.black,
+          )
+              : Icon(
+            Icons.brightness_4_outlined,
+            color: Colors.white,
+          ),
+        ),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(
+                    context, LoginScreen.routeName);
+              },
+              child: Text(
+                'Skip',
+                style: TextStyle(
+                  color: AppCubit.get(context).isDark
+                      ? Colors.black
+                      : Colors.white,
+                ),
+              ))
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -47,14 +80,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   list: boarding[index],
                 ),
                 itemCount: boarding.length,
-                onPageChanged: (index){
-                  if(index == boarding.length - 1){
+                onPageChanged: (index) {
+                  if (index == boarding.length - 1) {
                     setState(() {
-                      isLast = true ;
+                      isLast = true;
                     });
-                  }else {
+                  } else {
                     setState(() {
-                      isLast = false ;
+                      isLast = false;
                     });
                   }
                 },
@@ -77,7 +110,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     dotWidth: 10,
                     spacing: 5,
                   ),
-
                 ),
                 Text(
                   'Indicator',
@@ -86,8 +118,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 FloatingActionButton(
                   backgroundColor: Theme.of(context).primaryColor,
                   onPressed: () {
-                    if(isLast){
-                      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+                    if (isLast) {
+                      CacheHelper.saveData(key: 'onBoarding', value: true)
+                          .then((value) {
+                        if (value) {
+                          Navigator.pushReplacementNamed(
+                              context, LoginScreen.routeName);
+                        }
+                      });
                     }
                     boardController.nextPage(
                       duration: Duration(
@@ -96,7 +134,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       curve: Curves.fastLinearToSlowEaseIn,
                     );
                   },
-                  child: Icon(Icons.arrow_forward,color: Colors.white,),
+                  child: Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app_with_api/screens/home_screen.dart';
 import 'package:shop_app_with_api/screens/login_screen.dart';
 import 'package:shop_app_with_api/screens/onBoarding_screen.dart';
 import 'package:shop_app_with_api/screens/sign_up_screen.dart';
@@ -15,7 +16,19 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
-  bool? isDark = CacheHelper.getData('isDark');
+  bool? isDark = CacheHelper.getData(key: 'isDark');
+  bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
+  String? token = CacheHelper.getData(key: 'token');
+  Widget? widget ;
+  if(onBoarding != null){
+    if(token != null){
+      widget = HomeScreen();
+    }else{
+      widget = LoginScreen();
+    }
+  }else{
+    widget = OnBoardingScreen();
+  }
   runApp(MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -25,15 +38,16 @@ void main() async {
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (ctx, state) {},
         builder: (ctx, state) {
-          return MyApp(isDark!);
+          return MyApp(isDark!, widget!);
         },
       )));
 }
 
 class MyApp extends StatelessWidget {
   final bool isDark;
+  final Widget widget;
 
-  MyApp(this.isDark);
+  MyApp(this.isDark, this.widget);
 
   @override
   Widget build(BuildContext context) {
@@ -47,41 +61,9 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginScreen.routeName: (ctx) => LoginScreen(),
         SignUpScreen.routeName: (ctx) => SignUpScreen(),
+        HomeScreen.routeName: (ctx) => HomeScreen(),
       },
-      home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              AppCubit.get(context).changeAppMode();
-            },
-            icon: AppCubit.get(context).isDark
-                ? Icon(
-                    Icons.brightness_4_outlined,
-                    color: Colors.black,
-                  )
-                : Icon(
-                    Icons.brightness_4_outlined,
-                    color: Colors.white,
-                  ),
-          ),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(
-                      context, LoginScreen.routeName);
-                },
-                child: Text(
-                  'Skip',
-                  style: TextStyle(
-                    color: AppCubit.get(context).isDark
-                        ? Colors.black
-                        : Colors.white,
-                  ),
-                ))
-          ],
-        ),
-        body: OnBoardingScreen(),
-      ),
+      home: widget,
     );
   }
 }
