@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app_with_api/screens/home_screen.dart';
 import 'package:shop_app_with_api/screens/login_screen.dart';
 import 'package:shop_app_with_api/screens/onBoarding_screen.dart';
+import 'package:shop_app_with_api/screens/search_screen.dart';
 import 'package:shop_app_with_api/screens/sign_up_screen.dart';
 import 'package:shop_app_with_api/shared/cache_helper.dart';
+import 'package:shop_app_with_api/shared/constants.dart';
 import 'package:shop_app_with_api/shared/cubit/app_cubit.dart';
 import 'package:shop_app_with_api/shared/cubit/app_states.dart';
 import 'package:shop_app_with_api/shared/cubit/bloc_observer.dart';
@@ -16,29 +18,29 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
-  bool? isDark = CacheHelper.getData(key: 'isDark');
-  bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
-  String? token = CacheHelper.getData(key: 'token');
-  Widget? widget ;
-  if(onBoarding != null){
-    if(token != null){
+  bool isDark = CacheHelper.getData(key: 'isDark');
+  bool onBoarding = CacheHelper.getData(key: 'onBoarding');
+  token = CacheHelper.getData(key: 'token');
+  Widget widget;
+  if (onBoarding != null) {
+    if (token != null) {
       widget = HomeScreen();
-    }else{
+    } else {
       widget = LoginScreen();
     }
-  }else{
+  } else {
     widget = OnBoardingScreen();
   }
   runApp(MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (BuildContext ctx) =>
-                AppCubit()..changeAppMode(fromShared: isDark)),
+            create: (BuildContext ctx) => AppCubit()
+              ..changeAppMode(fromShared: isDark)),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (ctx, state) {},
         builder: (ctx, state) {
-          return MyApp(isDark!, widget!);
+          return MyApp(isDark, widget);
         },
       )));
 }
@@ -62,6 +64,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (ctx) => LoginScreen(),
         SignUpScreen.routeName: (ctx) => SignUpScreen(),
         HomeScreen.routeName: (ctx) => HomeScreen(),
+        SearchScreen.routeName: (ctx) => SearchScreen(),
       },
       home: widget,
     );
