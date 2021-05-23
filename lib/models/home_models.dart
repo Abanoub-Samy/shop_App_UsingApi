@@ -1,24 +1,29 @@
 class HomeModel{
-  bool? status ;
+  bool status = false;
   HomeDataModel? data ;
+  String? message;
   HomeModel.fromJson(Map<String,dynamic> json){
     status = json['status'];
-    data = HomeDataModel.fromJson(json['data']);
+    data = json['data'] != null ? HomeDataModel.fromJson(json['data']): null;
   }
 }
 
 class HomeDataModel {
-  List<BannerModel> banners =[];
+  List<BannerModel>? banners;
   List<ProductModel>? products ;
   HomeDataModel.fromJson(Map<String,dynamic> json){
-    json['banners'].forEach((element){
-      banners.add(element);
-      print('added');
-    });
-
-    // json['products'].forEach((element){
-    //   products!.add(element);
-    // });
+    if (json['banners'] != null) {
+      banners = [];
+      json['banners'].forEach((v) {
+        banners!.add(BannerModel.fromJson(v));
+      });
+    }
+    if (json['products'] != null) {
+      products = [];
+      json['products'].forEach((v) {
+        products!.add(ProductModel.fromJson(v));
+      });
+    }
   }
 }
 
@@ -44,6 +49,7 @@ class ProductModel {
     id = json['id'];
     price = json['price'];
     oldPrice = json['old_price'];
+    discount = json['discount'];
     image = json['image'];
     name = json['name'];
     inFavorites = json['in_favorites'];

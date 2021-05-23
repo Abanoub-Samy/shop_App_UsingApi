@@ -38,7 +38,7 @@ class AppCubit extends Cubit<AppStates> {
       isDark = fromShared;
     else
       isDark = !isDark;
-    CacheHelper.putData('isDark', isDark).then((value) {
+    CacheHelper.saveData(key: 'isDark',value:  isDark).then((value) {
       emit(AppChangeMode());
     });
   }
@@ -55,7 +55,6 @@ class AppCubit extends Cubit<AppStates> {
         'password': password,
       },
     ).then((value) {
-      //print(value.toString());
       loginModel = LoginModel.fromJson(value.data);
       print(loginModel!.data!.email);
       emit(LoginSuccessState());
@@ -73,12 +72,12 @@ class AppCubit extends Cubit<AppStates> {
       url: Home,
       token: token,
     ).then((value) {
-      homeModel = HomeModel.fromJson(value.data);
+       homeModel = HomeModel.fromJson(value.data);
       print(homeModel!.status.toString());
       print('good');
       emit(HomeSuccessState());
     }).catchError((onError) {
-      emit(HomeErrorState(onError));
+      emit(HomeErrorState(onError.toString()));
       print(onError.toString());
     });
   }
