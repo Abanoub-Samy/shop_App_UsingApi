@@ -35,7 +35,7 @@ void main() async {
       providers: [
         BlocProvider(
             create: (BuildContext ctx) => AppCubit()
-              ..changeAppMode(fromShared: isDark)),
+              ..changeAppMode(fromShared: isDark)..getHomeData()..getCategoriesData()),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (ctx, state) {},
