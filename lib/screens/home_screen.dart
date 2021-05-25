@@ -14,7 +14,6 @@ class HomeScreen extends StatelessWidget {
     return BlocConsumer<AppCubit, AppStates>(
         builder: (ctx, state) {
           var cubit = AppCubit.get(context);
-
           //AppCubit.get(context).getHomeData();
           return Scaffold(
             appBar: AppBar(

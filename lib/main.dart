@@ -20,10 +20,10 @@ void main() async {
   await CacheHelper.init();
   bool isDark = CacheHelper.getData(key: 'isDark');
   bool onBoarding = CacheHelper.getData(key: 'onBoarding');
-  token = CacheHelper.getData(key: 'token');
+  Token = CacheHelper.getData(key: 'token');
   Widget widget;
   if (onBoarding != null) {
-    if (token != null) {
+    if (Token != null) {
       widget = HomeScreen();
     } else {
       widget = LoginScreen();
@@ -35,7 +35,7 @@ void main() async {
       providers: [
         BlocProvider(
             create: (BuildContext ctx) => AppCubit()
-              ..changeAppMode(fromShared: isDark)..getHomeData()..getCategoriesData()),
+              ..changeAppMode(fromShared: isDark)..getHomeData()..getCategoriesData()..getFavoritesData()),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (ctx, state) {},

@@ -3,8 +3,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app_with_api/models/categories_model.dart';
 import 'package:shop_app_with_api/models/home_models.dart';
+import 'package:shop_app_with_api/shared/cubit/app_cubit.dart';
 
-Widget productBuilder(HomeModel? homeModel,CategoriesModel? categoriesModel ,BuildContext context) =>
+Widget productBuilder(HomeModel? homeModel, CategoriesModel? categoriesModel,
+        BuildContext context) =>
     SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       scrollDirection: Axis.vertical,
@@ -36,7 +38,9 @@ Widget productBuilder(HomeModel? homeModel,CategoriesModel? categoriesModel ,Bui
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10,),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -50,9 +54,10 @@ Widget productBuilder(HomeModel? homeModel,CategoriesModel? categoriesModel ,Bui
                 Container(
                   height: 100,
                   child: ListView.separated(
-                    physics: BouncingScrollPhysics(),
+                      physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => categoryItem(categoriesModel!.data!.data![index]),
+                      itemBuilder: (context, index) =>
+                          categoryItem(categoriesModel!.data!.data![index]),
                       separatorBuilder: (context, index) => SizedBox(
                             width: 10,
                           ),
@@ -162,9 +167,11 @@ Widget builderGridProduct(ProductModel? model, BuildContext context) =>
                       ),
                     Spacer(),
                     IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.favorite_border),
-                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        AppCubit.get(context).changeFavorites(model.id);
+                      },
+                      icon: categoryIcon(
+                          AppCubit.get(context).favorites[model.id]),
                     ),
                   ],
                 ),
@@ -197,4 +204,9 @@ Widget categoryItem(DataModel model) => Stack(
           ),
         ),
       ],
+    );
+
+Widget categoryIcon(bool? value) => Icon(
+      value! ? Icons.favorite : Icons.favorite_border,
+      color: value ? Colors.red : Colors.black,
     );

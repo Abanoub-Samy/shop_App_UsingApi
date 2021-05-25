@@ -34,7 +34,7 @@ class DioHelper {
     Map<String, dynamic>? query,
     required Map<String, dynamic> data,
     String lang = 'ar',
-    String? token,
+    required String token,
   }) async {
     dio.options.headers = {
       'Content-Type': 'application/json',
