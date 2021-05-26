@@ -6,6 +6,7 @@ import 'package:shop_app_with_api/models/change_favorites_model.dart';
 import 'package:shop_app_with_api/models/favorites_model.dart';
 import 'package:shop_app_with_api/models/home_models.dart';
 import 'package:shop_app_with_api/models/login_model.dart';
+import 'package:shop_app_with_api/models/profile_model.dart';
 import 'package:shop_app_with_api/screens/categories_screen.dart';
 import 'package:shop_app_with_api/screens/favorites_screen.dart';
 import 'package:shop_app_with_api/screens/products_screen.dart';
@@ -109,12 +110,13 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   ChangeFavoritesModel? changeFavoritesModel;
+
   void changeFavorites(int? productId) {
-    if(favorites[productId]== true){
-      favorites[productId] = false ;
+    if (favorites[productId] == true) {
+      favorites[productId] = false;
       //getFavoritesData();
-    }else {
-      favorites[productId] = true ;
+    } else {
+      favorites[productId] = true;
       //getFavoritesData();
     }
     emit(FavoritesChange());
@@ -127,19 +129,19 @@ class AppCubit extends Cubit<AppStates> {
         .then((value) {
       changeFavoritesModel = ChangeFavoritesModel.fromJson(value.data);
       emit(FavoritesSuccessState(changeFavoritesModel!));
-      if(changeFavoritesModel!.status ==false){
-        if(favorites[productId]== true){
-          favorites[productId] = false ;
-        }else {
-          favorites[productId] = true ;
+      if (changeFavoritesModel!.status == false) {
+        if (favorites[productId] == true) {
+          favorites[productId] = false;
+        } else {
+          favorites[productId] = true;
         }
       }
       emit(FavoritesChangeState());
     }).catchError((onError) {
-      if(favorites[productId]== true){
-        favorites[productId] = false ;
-      }else {
-        favorites[productId] = true ;
+      if (favorites[productId] == true) {
+        favorites[productId] = false;
+      } else {
+        favorites[productId] = true;
       }
       emit(FavoritesErrorState(onError.toString()));
       print(onError.toString());
@@ -159,6 +161,23 @@ class AppCubit extends Cubit<AppStates> {
       emit(GetFavoritesSuccessState());
     }).catchError((onError) {
       emit(GetFavoritesErrorState(onError.toString()));
+      print(onError.toString());
+    });
+  }
+
+  ProfileModel? profileModel;
+
+  void getProfileData() {
+    emit(GetProfileLoadingState());
+    DioHelper.getDate(
+      url: Profile,
+      token: Token,
+    ).then((value) {
+      profileModel = ProfileModel.fromJson(value.data);
+      print(profileModel!.data!.name.toString());
+      emit(GetProfileSuccessState());
+    }).catchError((onError) {
+      emit(GetProfileErrorState(onError.toString()));
       print(onError.toString());
     });
   }

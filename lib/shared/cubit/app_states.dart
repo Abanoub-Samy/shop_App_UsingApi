@@ -55,11 +55,23 @@ class FavoritesErrorState extends AppStates {
 class FavoritesChangeState extends AppStates {}
 
 class FavoritesChange extends AppStates {}
+
 class GetFavoritesLoadingState extends AppStates {}
+
 class GetFavoritesSuccessState extends AppStates {}
 
 class GetFavoritesErrorState extends AppStates {
   final String error;
 
   GetFavoritesErrorState(this.error);
+}
+
+class GetProfileLoadingState extends AppStates {}
+
+class GetProfileSuccessState extends AppStates {}
+
+class GetProfileErrorState extends AppStates {
+  final String error;
+
+  GetProfileErrorState(this.error);
 }
