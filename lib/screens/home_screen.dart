@@ -9,12 +9,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppCubit()..getHomeData();
-    AppCubit()..getCategoriesData();
     return BlocConsumer<AppCubit, AppStates>(
         builder: (ctx, state) {
           var cubit = AppCubit.get(context);
-          //AppCubit.get(context).getHomeData();
           return Scaffold(
             appBar: AppBar(
               title: const Text('Shop App'),

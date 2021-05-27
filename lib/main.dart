@@ -4,7 +4,7 @@ import 'package:shop_app_with_api/screens/home_screen.dart';
 import 'package:shop_app_with_api/screens/login_screen.dart';
 import 'package:shop_app_with_api/screens/onBoarding_screen.dart';
 import 'package:shop_app_with_api/screens/search_screen.dart';
-import 'package:shop_app_with_api/screens/sign_up_screen.dart';
+import 'package:shop_app_with_api/screens/register_screen.dart';
 import 'package:shop_app_with_api/shared/cache_helper.dart';
 import 'package:shop_app_with_api/shared/constants.dart';
 import 'package:shop_app_with_api/shared/cubit/app_cubit.dart';
@@ -34,12 +34,13 @@ void main() async {
   runApp(MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (BuildContext ctx) => AppCubit()
-              ..changeAppMode(fromShared: isDark)
-              ..getHomeData()
-              ..getCategoriesData()
-              ..getFavoritesData()
-              ..getProfileData()),
+          create: (BuildContext ctx) => AppCubit()
+            ..changeAppMode(fromShared: isDark)
+            ..getHomeData()
+            ..getCategoriesData()
+            ..getFavoritesData()
+            ..getProfileData(),
+        ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (ctx, state) {},
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
           AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
       routes: {
         LoginScreen.routeName: (ctx) => LoginScreen(),
-        SignUpScreen.routeName: (ctx) => SignUpScreen(),
+        RegisterScreen.routeName: (ctx) => RegisterScreen(),
         HomeScreen.routeName: (ctx) => HomeScreen(),
         SearchScreen.routeName: (ctx) => SearchScreen(),
       },

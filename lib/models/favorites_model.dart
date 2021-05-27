@@ -1,6 +1,6 @@
 class FavoritesModel {
   bool? status;
-  Null message;
+  String? message;
   Data? data;
 
 

@@ -1,6 +1,6 @@
 class ProfileModel {
   bool? status;
-  Null message;
+  String? message;
   Data? data;
 
   ProfileModel.fromJson(Map<String, dynamic> json) {

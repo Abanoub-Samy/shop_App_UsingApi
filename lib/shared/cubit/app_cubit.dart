@@ -7,6 +7,7 @@ import 'package:shop_app_with_api/models/favorites_model.dart';
 import 'package:shop_app_with_api/models/home_models.dart';
 import 'package:shop_app_with_api/models/login_model.dart';
 import 'package:shop_app_with_api/models/profile_model.dart';
+import 'package:shop_app_with_api/models/register_model.dart';
 import 'package:shop_app_with_api/screens/categories_screen.dart';
 import 'package:shop_app_with_api/screens/favorites_screen.dart';
 import 'package:shop_app_with_api/screens/products_screen.dart';
@@ -174,10 +175,64 @@ class AppCubit extends Cubit<AppStates> {
       token: Token,
     ).then((value) {
       profileModel = ProfileModel.fromJson(value.data);
-      print(profileModel!.data!.name.toString());
+      //print(profileModel!.data!.name.toString());
       emit(GetProfileSuccessState());
     }).catchError((onError) {
       emit(GetProfileErrorState(onError.toString()));
+      print(onError.toString());
+    });
+  }
+
+  RegisterModel? registerModel;
+
+  void userRegister({
+    required String name,
+    required String phone,
+    required String email,
+    required String password,
+    //required String image,
+  }) {
+    emit(RegisterLoadingState());
+    DioHelper.postDate(
+      url: Register,
+      token: Token,
+      data: {
+        'name': name,
+        'phone': phone,
+        'email': email,
+        'password': password,
+        // 'image': image,
+      },
+    ).then((value) {
+      registerModel = RegisterModel.fromJson(value.data);
+      //print(loginModel!.data!.email);
+      emit(RegisterSuccessState());
+    }).catchError((onError) {
+      emit(RegisterErrorState(onError.toString()));
+      print(onError.toString());
+    });
+  }
+
+  void userUpdate({
+    required String name,
+    required String phone,
+    required String email,
+  }) {
+    emit(ProfileUpdateLoadingState());
+    DioHelper.putDate(
+      url: UpdateProfile,
+      token: Token,
+      data: {
+        'name': name,
+        'phone': phone,
+        'email': email,
+      },
+    ).then((value) {
+      loginModel = LoginModel.fromJson(value.data);
+      //print(loginModel!.data!.email);
+      emit(ProfileUpdateSuccessState());
+    }).catchError((onError) {
+      emit(ProfileUpdateErrorState(onError.toString()));
       print(onError.toString());
     });
   }

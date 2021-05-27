@@ -7,6 +7,7 @@ import 'package:shop_app_with_api/shared/cubit/app_states.dart';
 class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AppCubit.get(context).getCategoriesData();
     return BlocConsumer<AppCubit,AppStates>(
       listener: (ctx, state){
       },

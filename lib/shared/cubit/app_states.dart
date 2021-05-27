@@ -66,6 +66,16 @@ class GetFavoritesErrorState extends AppStates {
   GetFavoritesErrorState(this.error);
 }
 
+class RegisterLoadingState extends AppStates {}
+
+class RegisterSuccessState extends AppStates {}
+
+class RegisterErrorState extends AppStates {
+  final String error;
+
+  RegisterErrorState(this.error);
+}
+
 class GetProfileLoadingState extends AppStates {}
 
 class GetProfileSuccessState extends AppStates {}
@@ -74,4 +84,14 @@ class GetProfileErrorState extends AppStates {
   final String error;
 
   GetProfileErrorState(this.error);
+}
+
+class ProfileUpdateLoadingState extends AppStates {}
+
+class ProfileUpdateSuccessState extends AppStates {}
+
+class ProfileUpdateErrorState extends AppStates {
+  final String error;
+
+  ProfileUpdateErrorState(this.error);
 }

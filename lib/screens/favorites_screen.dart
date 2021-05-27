@@ -5,7 +5,7 @@ import 'package:shop_app_with_api/widgets/favorite_screen_widget.dart';
 class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AppCubit()..getFavoritesData();
+    AppCubit().getFavoritesData();
     return ListView.separated(
       physics: BouncingScrollPhysics(),
       itemBuilder: (ctx, index) => favoriteItem(

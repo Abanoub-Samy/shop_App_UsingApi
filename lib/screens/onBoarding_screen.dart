@@ -54,8 +54,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         actions: [
           TextButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(
-                    context, LoginScreen.routeName);
+                CacheHelper.saveData(key: 'onBoarding', value: true)
+                    .then((value) {
+                  if (value) {
+                    Navigator.pushReplacementNamed(
+                        context, LoginScreen.routeName);
+                  }
+                });
               },
               child: Text(
                 'Skip',

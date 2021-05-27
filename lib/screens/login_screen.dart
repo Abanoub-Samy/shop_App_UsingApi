@@ -3,7 +3,7 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app_with_api/screens/home_screen.dart';
-import 'package:shop_app_with_api/screens/sign_up_screen.dart';
+import 'package:shop_app_with_api/screens/register_screen.dart';
 import 'package:shop_app_with_api/shared/cache_helper.dart';
 import 'package:shop_app_with_api/shared/cubit/app_cubit.dart';
 import 'package:shop_app_with_api/shared/cubit/app_states.dart';
@@ -189,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context)
-                                        .pushNamed(SignUpScreen.routeName);
+                                        .pushNamed(RegisterScreen.routeName);
                                   },
                                   child: const Text(
                                     'Register Now',

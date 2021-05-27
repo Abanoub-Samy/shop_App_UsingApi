@@ -7,7 +7,14 @@ import 'package:shop_app_with_api/shared/cache_helper.dart';
 import 'package:shop_app_with_api/shared/cubit/app_cubit.dart';
 import 'package:shop_app_with_api/shared/cubit/app_states.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+  @override
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool enableText = false;
+
   @override
   Widget build(BuildContext context) {
     AppCubit.get(context).getProfileData();
@@ -36,10 +43,10 @@ class SettingsScreen extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      CircleAvatar(
-                        radius: 50,
-                        child: Image(image: NetworkImage(image.toString()),),
-                      ),
+                      // CircleAvatar(
+                      //   radius: 50,
+                      //   child: Image(image: NetworkImage(image.toString()),),
+                      // ),
                       SizedBox(
                         height: 20,
                       ),
@@ -52,9 +59,7 @@ class SettingsScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        enableInteractiveSelection: false,
-                        focusNode: new AlwaysDisabledFocusNode(),
-
+                        enabled: enableText,
                       ),
                       SizedBox(
                         height: 20,
@@ -68,8 +73,7 @@ class SettingsScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        enableInteractiveSelection: false,
-                        focusNode: new AlwaysDisabledFocusNode(),
+                        enabled: enableText,
                       ),
                       SizedBox(
                         height: 20,
@@ -83,20 +87,51 @@ class SettingsScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        enableInteractiveSelection: false,
-                        focusNode: new AlwaysDisabledFocusNode(),
+                        enabled: enableText,
                       ),
                       SizedBox(
                         height: 20,
                       ),
-                      ElevatedButton(
-                        child: Text('Sign Out'),
-                        onPressed: () {
-                          CacheHelper.clearData(key: 'token');
-                          Navigator.pushReplacementNamed(
-                              context, LoginScreen.routeName);
-                          AppCubit.get(context).changeBottom(0);
-                        },
+                      Column(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              child: enableText
+                                  ? Text('Update')
+                                  : Text('Press To Edit'),
+                              onPressed: () {
+                                if (enableText) {
+                                  setState(() {
+                                    enableText = !enableText;
+                                    print('update');
+                                  });
+                                  AppCubit.get(context).userUpdate(
+                                    name: name.text,
+                                    phone: phone.text,
+                                    email: email.text,
+                                  );
+                                } else {
+                                  setState(() {
+                                    enableText = !enableText;
+                                  });
+                                }
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              child: Text('Log Out'),
+                              onPressed: () {
+                                CacheHelper.clearData(key: 'token');
+                                Navigator.pushReplacementNamed(
+                                    context, LoginScreen.routeName);
+                                AppCubit.get(context).changeBottom(0);
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -108,9 +143,4 @@ class SettingsScreen extends StatelessWidget {
       },
     );
   }
-}
-
-class AlwaysDisabledFocusNode extends FocusNode {
-  @override
-  bool get hasFocus => false;
 }
