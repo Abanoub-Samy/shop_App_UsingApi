@@ -8,18 +8,17 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppCubit.get(context).getCategoriesData();
-    return BlocConsumer<AppCubit,AppStates>(
-      listener: (ctx, state){
-      },
-      builder: (ctx, state){
+    return BlocConsumer<AppCubit, AppStates>(
+      listener: (ctx, state) {},
+      builder: (ctx, state) {
         return ListView.separated(
           physics: BouncingScrollPhysics(),
-          itemBuilder: (ctx, index) => catItem(AppCubit.get(context).categoriesModel!.data!.data![index]),
+          itemBuilder: (ctx, index) => catItem(
+              AppCubit.get(context).categoriesModel!.data!.data![index]),
           separatorBuilder: (ctx, index) => Divider(),
           itemCount: AppCubit.get(context).categoriesModel!.data!.data!.length,
         );
       },
-
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:shop_app_with_api/models/favorites_model.dart';
 import 'package:shop_app_with_api/shared/cubit/app_cubit.dart';
 import 'package:shop_app_with_api/widgets/product_screen_widget.dart';
 
-Widget favoriteItem(DataFavor model,BuildContext context) => Padding(
+Widget favoriteItem(Product? model,BuildContext context) => Padding(
   padding: const EdgeInsets.all(10.0),
   child: Container(
     height: 120,
@@ -15,12 +15,12 @@ Widget favoriteItem(DataFavor model,BuildContext context) => Padding(
           children: [
             Image(
               image: NetworkImage(
-                model.product!.image.toString(),
+                model!.image.toString(),
               ),
               width: 120,
               height: 120,
             ),
-            if (model.product!.discount != 0)
+            if (model.discount != 0)
               Container(
                 color: Colors.red,
                 padding: EdgeInsets.symmetric(
@@ -42,7 +42,7 @@ Widget favoriteItem(DataFavor model,BuildContext context) => Padding(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                model.product!.name.toString(),
+                model.name.toString(),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -54,7 +54,7 @@ Widget favoriteItem(DataFavor model,BuildContext context) => Padding(
               Row(
                 children: [
                   Text(
-                    model.product!.price!.round().toString(),
+                    model.price!.round().toString(),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -65,9 +65,9 @@ Widget favoriteItem(DataFavor model,BuildContext context) => Padding(
                   SizedBox(
                     width: 5,
                   ),
-                  if (model.product!.discount != 0)
+                  if (model.discount != 0)
                     Text(
-                      model.product!.oldPrice!.round().toString(),
+                      model.oldPrice!.round().toString(),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -79,10 +79,10 @@ Widget favoriteItem(DataFavor model,BuildContext context) => Padding(
                   Spacer(),
                   IconButton(
                     onPressed: () {
-                      AppCubit.get(context).changeFavorites(model.product!.id);
+                      AppCubit.get(context).changeFavorites(model.id);
                       },
                     icon: categoryIcon(
-                        AppCubit.get(context).favorites[model.product!.id]),
+                        AppCubit.get(context).favorites[model.id]),
                   ),
                 ],
               ),

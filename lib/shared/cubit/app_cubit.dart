@@ -8,6 +8,7 @@ import 'package:shop_app_with_api/models/home_models.dart';
 import 'package:shop_app_with_api/models/login_model.dart';
 import 'package:shop_app_with_api/models/profile_model.dart';
 import 'package:shop_app_with_api/models/register_model.dart';
+import 'package:shop_app_with_api/models/search_model.dart';
 import 'package:shop_app_with_api/screens/categories_screen.dart';
 import 'package:shop_app_with_api/screens/favorites_screen.dart';
 import 'package:shop_app_with_api/screens/products_screen.dart';
@@ -118,7 +119,7 @@ class AppCubit extends Cubit<AppStates> {
       //getFavoritesData();
     } else {
       favorites[productId] = true;
-      //getFavoritesData();
+      getFavoritesData();
     }
     emit(FavoritesChange());
     DioHelper.postDate(
@@ -158,7 +159,6 @@ class AppCubit extends Cubit<AppStates> {
       token: Token,
     ).then((value) {
       favoritesModel = FavoritesModel.fromJson(value.data);
-      //print(categoriesModel!.status.toString());
       emit(GetFavoritesSuccessState());
     }).catchError((onError) {
       emit(GetFavoritesErrorState(onError.toString()));
@@ -233,6 +233,27 @@ class AppCubit extends Cubit<AppStates> {
       emit(ProfileUpdateSuccessState());
     }).catchError((onError) {
       emit(ProfileUpdateErrorState(onError.toString()));
+      print(onError.toString());
+    });
+  }
+
+  SearchModel? searchModel;
+
+  void searchProduct({
+    required String text,
+  }) {
+    emit(SearchLoadingState());
+    DioHelper.postDate(
+      url: Search,
+      token: Token,
+      data: {
+        'text': text,
+      },
+    ).then((value) {
+      searchModel = SearchModel.fromJson(value.data);
+      emit(SearchSuccessState());
+    }).catchError((onError) {
+      emit(SearchErrorState(onError.toString()));
       print(onError.toString());
     });
   }

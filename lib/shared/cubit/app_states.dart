@@ -95,3 +95,13 @@ class ProfileUpdateErrorState extends AppStates {
 
   ProfileUpdateErrorState(this.error);
 }
+
+class SearchLoadingState extends AppStates {}
+
+class SearchSuccessState extends AppStates {}
+
+class SearchErrorState extends AppStates {
+  final String error;
+
+  SearchErrorState(this.error);
+}
